@@ -1,7 +1,11 @@
+using Conways_GameOfLife_API.Data;
+using Conways_GameOfLife_API.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSingleton<InMemoryBoardStore>();
+builder.Services.AddSingleton<GameOfLifeService>();
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();

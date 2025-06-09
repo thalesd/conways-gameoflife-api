@@ -1,13 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Conways_GameOfLife_API.Helpers;
+using Conways_GameOfLife_API.Models;
+using Conways_GameOfLife_API.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Conways_GameOfLife_API.Controllers
 {
+    [Route("board")]
     public class BoardController : Controller
     {
-        [HttpPost]
-        public IActionResult CreateBoard()
+        private readonly GameOfLifeService _gameService;
+
+        public BoardController(GameOfLifeService gameService)
         {
-            return Ok();
+            _gameService = gameService;
+        }
+
+        [HttpPost]
+        public IActionResult CreateBoard([FromBody] CreateBoardDTO createBoardDto)
+        {
+            var id = _gameService.AddBoard(ArrayHelper.To2DArray(createBoardDto.BoardState));
+            return Ok(new { id });
         }
 
         [HttpGet("{id}/next")]
