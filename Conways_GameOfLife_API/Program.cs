@@ -13,6 +13,10 @@ builder.Services.Configure<APIConfig>(config =>
         config.MaxIterations = max;
 });
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.SetMinimumLevel(LogLevel.Information);
+
 builder.Services.AddSingleton<InMemoryBoardStore>();
 builder.Services.AddSingleton<GameOfLifeService>();
 builder.Services.AddSingleton<BoardService>();
