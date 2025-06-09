@@ -1,5 +1,6 @@
 ﻿using Conways_GameOfLife_API.Data;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Conways_GameOfLife_API.Services
 {
@@ -27,6 +28,18 @@ namespace Conways_GameOfLife_API.Services
             var next = _gameService.GetNextState(board);
             _inMemoryStore.UpdateBoard(id, next);
             return next;
+        }
+
+        public bool[,]? Advance(Guid id, int steps)
+        {
+            var board = _inMemoryStore.GetBoard(id);
+            if (board == null) return null;
+
+            for (int i = 0; i < steps; i++)
+                board = _gameService.GetNextState(board);
+
+            _inMemoryStore.UpdateBoard(id, board);
+            return board;
         }
     }
 }

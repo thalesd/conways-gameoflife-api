@@ -33,10 +33,11 @@ namespace Conways_GameOfLife_API.Controllers
             return Ok(ArrayHelper.ToJaggedArray(next));
         }
 
-        [HttpGet("{id}/advance/{steps}")]
-        public IActionResult GetBoardFutureState()
+        [HttpGet("{id}/advance/{steps:int}")]
+        public IActionResult GetBoardFutureState(Guid id, int steps)
         {
-            return Ok();
+            var result = _boardService.Advance(id, steps);
+            return result == null ? NotFound() : Ok(ArrayHelper.ToJaggedArray(result));
         }
 
         [HttpGet("{id}/final")]
