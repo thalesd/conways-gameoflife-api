@@ -41,9 +41,12 @@ namespace Conways_GameOfLife_API.Controllers
         }
 
         [HttpGet("{id}/final")]
-        public IActionResult GetFinalBoardState()
+        public IActionResult GetFinalBoardState(Guid id)
         {
-            return Ok();
+            var (state, success, reason) = _boardService.GetFinal(id);
+            if (!success || state == null)
+                return BadRequest(reason);
+            return Ok(new { finalState = ArrayHelper.ToJaggedArray(state), reason});
         }
     }
 }

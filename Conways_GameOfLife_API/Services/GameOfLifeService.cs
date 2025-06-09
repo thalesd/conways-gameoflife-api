@@ -41,5 +41,15 @@
 
             return count;
         }
+
+        public bool BoardsEqual(bool[,] a, bool[,] b)
+        {
+            int rows = a.GetLength(0);
+            int cols = a.GetLength(1);
+            for (int r = 0; r < rows; r++)
+                for (int c = 0; c < cols; c++)
+                    if (a[r, c] != b[r, c]) return false;
+            return true;
+        }
     }
 }
