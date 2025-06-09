@@ -14,5 +14,21 @@
 
             return result;
         }
+
+        public static bool[][] ToJaggedArray(bool[,] array)
+        {
+            int rows = array.GetLength(0);
+            int cols = array.GetLength(1);
+            var result = new bool[rows][];
+
+            for (int i = 0; i < rows; i++)
+            {
+                result[i] = new bool[cols];
+                for (int j = 0; j < cols; j++)
+                    result[i][j] = array[i, j];
+            }
+
+            return result;
+        }
     }
 }
