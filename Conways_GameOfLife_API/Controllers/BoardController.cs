@@ -17,16 +17,16 @@ namespace Conways_GameOfLife_API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateBoard([FromBody] CreateBoardDTO createBoardDto)
+        public async Task<IActionResult> CreateBoardAsync([FromBody] CreateBoardDTO createBoardDto)
         {
-            var id = _boardService.AddBoard(ArrayHelper.To2DArray(createBoardDto.BoardState));
+            var id = await _boardService.AddBoardAsync(ArrayHelper.To2DArray(createBoardDto.BoardState));
             return Ok(new { id });
         }
 
         [HttpGet("{id}/next")]
-        public IActionResult GetBoardNextState(Guid id)
+        public async Task<IActionResult> GetBoardNextStateAsync(Guid id)
         {
-            var next = _boardService.GetNext(id);
+            var next = await _boardService.GetNextAsync(id);
 
             if (next == null) return NotFound();
 
@@ -34,16 +34,16 @@ namespace Conways_GameOfLife_API.Controllers
         }
 
         [HttpGet("{id}/advance/{steps:int}")]
-        public IActionResult GetBoardFutureState(Guid id, int steps)
+        public async Task<IActionResult> GetBoardFutureStateAsync(Guid id, int steps)
         {
-            var result = _boardService.Advance(id, steps);
+            var result = await _boardService.AdvanceAsync(id, steps);
             return result == null ? NotFound() : Ok(ArrayHelper.ToJaggedArray(result));
         }
 
         [HttpGet("{id}/final")]
-        public IActionResult GetFinalBoardState(Guid id)
+        public async Task<IActionResult> GetFinalBoardStateAsync(Guid id)
         {
-            var (state, success, reason) = _boardService.GetFinal(id);
+            var (state, success, reason) = await _boardService.GetFinalAsync(id);
             if (!success || state == null)
                 return BadRequest(reason);
             return Ok(new { finalState = ArrayHelper.ToJaggedArray(state), reason});

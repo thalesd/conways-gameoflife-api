@@ -8,7 +8,8 @@
       "applicationUrl": "http://localhost:5020",
         "environmentVariables": {
             "ASPNETCORE_ENVIRONMENT": "Development",
-            "API_MAX_ITERATIONS": "1000"
+            "API_MAX_ITERATIONS": "1000",
+            "DB_DATA_SOURCE": "Data Source=gameOfLife.db"
         }
     },
     "https": {
@@ -18,7 +19,8 @@
       "applicationUrl": "https://localhost:7159;http://localhost:5020",
         "environmentVariables": {
             "ASPNETCORE_ENVIRONMENT": "Development",
-            "API_MAX_ITERATIONS": "1000"
+            "API_MAX_ITERATIONS": "1000",
+            "DB_DATA_SOURCE": "Data Source=gameOfLife.db"
         }
     }
   }

@@ -7,31 +7,31 @@ namespace Conways_GameOfLife_API.Services
 {
     public class BoardService
     {
-        private readonly InMemoryBoardStore _inMemoryStore;
+        private readonly BoardRepository _boardRepository;
         private readonly GameOfLifeService _gameService; 
         private readonly APIConfig _config;
         private readonly ILogger<BoardService> _logger;
 
-        public BoardService(InMemoryBoardStore inMemoryStore, GameOfLifeService gameService, IOptions<APIConfig> config, ILogger<BoardService> logger)
+        public BoardService(BoardRepository inMemoryStore, GameOfLifeService gameService, IOptions<APIConfig> config, ILogger<BoardService> logger)
         {
-            _inMemoryStore = inMemoryStore;
+            _boardRepository = inMemoryStore;
             _gameService = gameService;
             _config = config.Value;
             _logger = logger;
         }
 
-        public Guid AddBoard(bool[,] board)
+        public async Task<Guid> AddBoardAsync(bool[,] board)
         {
-            var id = _inMemoryStore.AddBoard(board);
+            var id = await _boardRepository.AddBoardAsync(board);
 
             _logger.LogInformation("Board created with id: {id}", id);
 
             return id;
         }
 
-        public bool[,]? GetNext(Guid id)
+        public async Task<bool[,]?> GetNextAsync(Guid id)
         {
-            var board = _inMemoryStore.GetBoard(id);
+            var board = await _boardRepository.GetBoardAsync(id);
 
             if (board == null)
             {
@@ -40,13 +40,13 @@ namespace Conways_GameOfLife_API.Services
             }
 
             var next = _gameService.GetNextState(board);
-            _inMemoryStore.UpdateBoard(id, next);
+            await _boardRepository.UpdateBoardAsync(id, next);
             return next;
         }
 
-        public bool[,]? Advance(Guid id, int steps)
+        public async Task<bool[,]?> AdvanceAsync(Guid id, int steps)
         {
-            var board = _inMemoryStore.GetBoard(id);
+            var board = await _boardRepository.GetBoardAsync(id);
             if (board == null)
             {
                 _logger.LogWarning("Board not found: {BoardId}", id);
@@ -58,13 +58,13 @@ namespace Conways_GameOfLife_API.Services
 
             _logger.LogInformation("Board with id: {id} advanced {steps} steps", id, steps);
 
-            _inMemoryStore.UpdateBoard(id, board);
+            await _boardRepository.UpdateBoardAsync(id, board);
             return board;
         }
 
-        public (bool[,]? state, bool success, string reason) GetFinal(Guid id)
+        public async Task<(bool[,]? state, bool success, string reason)> GetFinalAsync(Guid id)
         {
-            var board = _inMemoryStore.GetBoard(id);
+            var board = await _boardRepository.GetBoardAsync(id);
             if (board == null)
             {
                 _logger.LogWarning("Board not found: {BoardId}", id);
