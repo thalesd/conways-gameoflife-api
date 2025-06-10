@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Conways_GameOfLife_API.Services
 {
-    public class BoardService
+    public class BoardService : IBoardService
     {
-        private readonly BoardRepository _boardRepository;
+        private readonly IBoardRepository _boardRepository;
         private readonly GameOfLifeService _gameService; 
         private readonly APIConfig _config;
-        private readonly ILogger<BoardService> _logger;
+        private readonly ILogger<IBoardService> _logger;
 
-        public BoardService(BoardRepository inMemoryStore, GameOfLifeService gameService, IOptions<APIConfig> config, ILogger<BoardService> logger)
+        public BoardService(IBoardRepository inMemoryStore, GameOfLifeService gameService, IOptions<APIConfig> config, ILogger<IBoardService> logger)
         {
             _boardRepository = inMemoryStore;
             _gameService = gameService;

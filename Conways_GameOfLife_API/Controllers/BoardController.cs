@@ -10,9 +10,9 @@ namespace Conways_GameOfLife_API.Controllers
     [Route("board")]
     public class BoardController : Controller
     {
-        private readonly BoardService _boardService;
+        private readonly IBoardService _boardService;
 
-        public BoardController(BoardService gameService)
+        public BoardController(IBoardService gameService)
         {
             _boardService = gameService;
         }

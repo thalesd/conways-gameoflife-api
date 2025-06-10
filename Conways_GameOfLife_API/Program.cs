@@ -28,8 +28,8 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.SetMinimumLevel(LogLevel.Information);
 
-builder.Services.AddScoped<BoardRepository>();
-builder.Services.AddScoped<BoardService>();
+builder.Services.AddScoped<IBoardRepository, BoardRepository>();
+builder.Services.AddScoped<IBoardService, BoardService>();
 
 builder.Services.AddSingleton<GameOfLifeService>();
 

@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace Conways_GameOfLife_API.Data
 {
-    public class BoardRepository
+    public class BoardRepository : IBoardRepository
     {
         private readonly GameOfLifeDbContext _context;
 
