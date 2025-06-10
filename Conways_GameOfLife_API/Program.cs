@@ -1,6 +1,8 @@
 using Conways_GameOfLife_API.Configuration;
 using Conways_GameOfLife_API.Data;
+using Conways_GameOfLife_API.Middleware;
 using Conways_GameOfLife_API.Services;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -42,6 +44,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
